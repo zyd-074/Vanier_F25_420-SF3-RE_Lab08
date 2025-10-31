@@ -1,5 +1,3 @@
-
-
 import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -23,6 +21,7 @@ public class YuDuoZhang_Lab08 extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("MainFXML.fxml"));
         Scene scene = new Scene(root);
         stage.setScene(scene);
+        stage.setTitle("Paint");
         stage.show();
     }
 }
