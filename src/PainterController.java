@@ -78,8 +78,8 @@ public class PainterController implements Initializable {
         int idx = drawingAreaPane.getChildren().size();
         if (idx > 0) {
             drawingAreaPane.getChildren().removeLast();
+            }
         }
-    }
 
     @FXML
     private void clearClicked(ActionEvent event) {
@@ -89,7 +89,13 @@ public class PainterController implements Initializable {
     @FXML
     private void drawingAreaMouseDragged(MouseEvent event) {
         Circle pen = new Circle(event.getX(), event.getY(),radius.getRadius(),brushColor);
-        drawingAreaPane.getChildren().add(pen);
+        double leftBorder = drawingAreaPane.getTranslateX() + radius.getRadius();
+        double rightBorder = drawingAreaPane.getTranslateX() + drawingAreaPane.getWidth() - radius.getRadius();
+        double topBorder = drawingAreaPane.getTranslateY() + radius.getRadius();
+        double bottomBorder = drawingAreaPane.getTranslateY() + drawingAreaPane.getHeight() - radius.getRadius();
+        if (event.getX() > leftBorder && event.getX() < rightBorder && event.getY() > topBorder && event.getY() < bottomBorder) {
+            drawingAreaPane.getChildren().add(pen);
+        }
     }
     
     private enum PenSize {
