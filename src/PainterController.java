@@ -16,7 +16,7 @@ import javafx.scene.shape.Circle;
 /**
  * FXML Controller class
  *
- * @author CnFig
+ * @author Yu Duo Zhang (2480549)
  */
 public class PainterController implements Initializable {
     // Variables referring to GUI components
