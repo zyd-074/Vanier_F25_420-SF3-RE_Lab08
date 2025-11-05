@@ -1,5 +1,6 @@
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.Stack;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -47,6 +48,9 @@ public class PainterController implements Initializable {
     // Variables for managing Painter State
     private PenSize radius = PenSize.MEDIUM;
     private Paint brushColor = Color.BLACK;
+    
+    // Idx of last drawing 
+    private Stack<Integer> idxUndo = new Stack<>();
 
     /**
      * Initializes the controller class.
@@ -75,11 +79,17 @@ public class PainterController implements Initializable {
 
     @FXML
     private void undoClicked(ActionEvent event) {
-        int idx = drawingAreaPane.getChildren().size();
-        if (idx > 0) {
-            drawingAreaPane.getChildren().removeLast();
+        int idx = drawingAreaPane.getChildren().size() - 1;
+        if (!idxUndo.isEmpty()) {
+            int goalIdx = idxUndo.peek();
+            if (idx > goalIdx) {
+                for (int i = idx; i > goalIdx; i--) {
+                    drawingAreaPane.getChildren().remove(i);
+                }
+            idxUndo.pop();
             }
         }
+    }
 
     @FXML
     private void clearClicked(ActionEvent event) {
@@ -96,6 +106,11 @@ public class PainterController implements Initializable {
         if (event.getX() > leftBorder && event.getX() < rightBorder && event.getY() > topBorder && event.getY() < bottomBorder) {
             drawingAreaPane.getChildren().add(pen);
         }
+    }
+    
+    @FXML
+    private void saveIdx(MouseEvent event) {
+        idxUndo.push(drawingAreaPane.getChildren().size() - 1);
     }
     
     private enum PenSize {
